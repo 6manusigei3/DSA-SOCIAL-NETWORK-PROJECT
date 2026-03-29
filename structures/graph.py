@@ -1,31 +1,23 @@
-def recommend_friends(graph, user):
-    visited = set()
-    queue = []
-    recommendations = set()
+class Graph:
+    def __init__(self):
+        self.adj_list = {}
 
-    # Step 1: Get direct friends
-    direct_friends = set(graph.get_friends(user))
+    def add_user(self, user):
+        if user not in self.adj_list:
+            self.adj_list[user] = []
 
-    # Step 2: Add them to queue
-    for friend in direct_friends:
-        queue.append(friend)
+    def add_edge(self, user1, user2):
+        if user1 not in self.adj_list:
+            self.add_user(user1)
+        if user2 not in self.adj_list:
+            self.add_user(user2)
 
-    visited.add(user)
+        self.adj_list[user1].append(user2)
+        self.adj_list[user2].append(user1)
 
-    # Step 3: BFS traversal
-    while queue:
-        current = queue.pop(0)
+    def get_friends(self, user):
+        return self.adj_list.get(user, [])
 
-        if current not in visited:
-            visited.add(current)
-
-            # Look at friends of this friend
-            for friend_of_friend in graph.get_friends(current):
-
-                # Recommend if:
-                # - not the user
-                # - not already a friend
-                if friend_of_friend != user and friend_of_friend not in direct_friends:
-                    recommendations.add(friend_of_friend)
-
-    return list(recommendations)
+    def display(self):
+        for user in self.adj_list:
+            print(user, "->", self.adj_list[user])

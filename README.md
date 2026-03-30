@@ -1,26 +1,68 @@
 # Social Network App
 
-## Open the web app
+## How to open the project from GitHub
 
-1. Install dependencies:
+1. Clone the repository:
+
+```bash
+git clone https://github.com/6manusigei3/DSA-2.git
+cd DSA-2
+```
+
+2. Install dependencies.
+
+Option A (recommended): create a virtual environment first:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+Then install:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-2. Run the Flask server:
+3. Prepare the MySQL database.
+
+- Start your MySQL server.
+- Create the database and user:
+
+```sql
+CREATE DATABASE social_network;
+CREATE USER 'social_user'@'localhost' IDENTIFIED BY '1234';
+GRANT ALL PRIVILEGES ON social_network.* TO 'social_user'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+- Create the required tables:
+
+```sql
+CREATE TABLE users (
+  username VARCHAR(255) PRIMARY KEY,
+  password VARCHAR(255)
+);
+
+CREATE TABLE friends (
+  user1 VARCHAR(255),
+  user2 VARCHAR(255)
+);
+```
+
+4. Start the web app:
 
 ```bash
 python3 app.py
 ```
 
-3. Open your browser at:
+5. Open your browser at:
 
 ```text
 http://127.0.0.1:5000
 ```
 
-A small Python-based social network system that stores users and friendships in a MySQL database. It supports both a command-line interface and a Flask web interface. The app supports registration, login, friend requests, friendship acceptance, recommendations, undoing a friendship action, and deleting users.
+This project is a small Python-based social network system that stores users and friendships in a MySQL database. It supports both a command-line interface and a Flask web interface. The app supports registration, login, friend requests, friendship acceptance, recommendations, undoing a friendship action, and deleting users.
 
 ## Project Structure
 

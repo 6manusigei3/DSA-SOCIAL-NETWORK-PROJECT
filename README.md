@@ -257,23 +257,38 @@ python3 app.py
 
 This project is built around key DSA concepts:
 
-- **Graph data structure**
-  - The social network is represented as an adjacency list in `FriendManager`.
-  - `self.network = { username: [friend1, friend2, ...], ... }`
-  - Each user is a node and each friendship is an edge.
-- **Graph operations**
-  - `accept_request(sender, receiver)` adds an edge between two nodes.
-  - `display_network()` traverses the graph and prints each node's neighbors.
-  - `delete_user(username)` removes a node and all incident edges.
-- **Recommendation algorithm**
-  - `recommend_friends(graph, user)` performs a friends-of-friends traversal.
-  - It counts how often each candidate appears through mutual friends.
-  - It sorts those candidates by score to return the strongest recommendations.
-- **Stack behavior for undo**
-  - `self.undo_stack` stores the last friendship action.
-  - `undo()` pops the last action and reverses it, demonstrating LIFO behavior.
+- **Hash table / map**
+  - `FriendManager.network` uses a Python dictionary for O(1) username lookups and adjacency mapping.
+  - The database cursor also uses key-based lookup for user retrieval.
+- **Stack**
+  - `FriendManager.undo_stack` stores the last friendship action.
+  - `undo()` pops from this stack to reverse the last action, demonstrating LIFO history behavior.
+- **Queue / BFS**
+  - `system/recommendation_engine.py` uses `collections.deque` to perform BFS over the graph.
+  - The recommendation algorithm explores friends-of-friends using a queue.
+- **Heap / priority queue**
+  - `recommend_friends()` uses `heapq.nlargest()` to choose the top-k recommendations by score.
+- **Graph**
+  - The social network is modeled as an adjacency list graph in `FriendManager`.
+  - Friendships are edges and users are nodes.
+- **Sorting + searching**
+  - Recommendations use `sorted()` or `heapq.nlargest()` which are O(n log n) operations.
+  - Username membership checks use dictionary/key membership for fast search.
+- **Complexity analysis**
+  - Loading users and friendships into memory: O(U + F), where U is users and F is friendships.
+  - `accept_request()` and `delete_user()` are O(1) for graph updates plus database insert/delete costs.
+  - `recommend_friends()` is O(d + n log k), where d is the number of neighbors visited and k is the number of top recommendations.
+  - `undo()` is O(1) plus the cost of deleting from the database.
 
-This makes the project suitable for a DSA video because it uses graph modeling, traversal, counting/sorting algorithms, and a stack-based undo mechanism.
+This project is a good DSA example because it uses graph modeling, BFS traversal, heap-based top-k selection, hash-based lookup, stack undo behavior, and sorting/searching operations.
+
+## Benchmark
+
+A small benchmark script is included in `system/benchmark.py` to measure recommendation performance on synthetic graph data:
+
+```bash
+python3 system/benchmark.py
+```
 
 ## Improvements
 

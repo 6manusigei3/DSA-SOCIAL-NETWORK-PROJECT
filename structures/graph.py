@@ -2,7 +2,7 @@ class Graph:
     def __init__(self):
         self.adj_list = {}
 
-    def add_user(self, user)
+    def add_user(self, user):
         if user not in self.adj_list:
             self.adj_list[user] = []
 

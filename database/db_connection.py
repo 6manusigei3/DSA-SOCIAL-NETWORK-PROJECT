@@ -1,7 +1,7 @@
 import mysql.connector
 
 def connect_db():
-    return mysql.connector.(
+    return mysql.connector.connect(
         host="localhost",
         user="social_user",
         password="1234",
